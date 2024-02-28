@@ -1,14 +1,20 @@
 package com.study.ui;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class GameJfram extends JFrame {
+
+    int[][] data = new int[4][4];
     public GameJfram(){
 //        设置界面宽高以及让界面显示
         initJfram();
 
 //        初始化菜单
         initMenu();
+
+//        初始化数据
+        initData();
 
 //        初始化图像
         initImage();
@@ -17,14 +23,33 @@ public class GameJfram extends JFrame {
         this.setVisible(true);
     }
 
+    private void initData() {
+        int[] arr = new int[16];
+        for (int i = 0; i < 16; i++) {
+            arr[i] = i;
+        }
+        for (int i = 0; i < 16; i++) {
+            Random r = new Random();
+            int idx = r.nextInt(16);
+            int tmp = arr[idx];
+            arr[idx] = arr[i];
+            arr[i] = tmp;
+        }
+        for (int i = 0; i < 16; i++) {
+            data[i / 4][i % 4] = arr[i];
+        }
+    }
 
-//    初始化图像
+
+    //    初始化图像
     private void initImage() {
-//        创建一个ImageIcon对象
-
-//        创建一个JLable对象
-
-//        把管理容器添加到菜单中
+        for (int i = 0; i < data.length; i++) {
+            for (int i1 = 0; i1 < data[i].length; i1++) {
+                JLabel jLabel = new JLabel(new ImageIcon("image/animal/animal1/" + data[i][i1] + ".jpg"));
+                jLabel.setBounds(i1*105,i*105,105,105);
+                this.getContentPane().add(jLabel);
+            }
+        }
     }
 
 
@@ -70,6 +95,9 @@ public class GameJfram extends JFrame {
         this.setLocationRelativeTo(null);
 //        设置程序关闭模式
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+//        取消默认居中
+        this.setLayout(null);
     }
 
 }
