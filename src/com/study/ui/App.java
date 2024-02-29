@@ -5,7 +5,7 @@ public class App {
     public static void main(String[] args) {
 //        RegisterJfram registerJfram = new RegisterJfram();
 //        LogJfram logJfram = new LogJfram();
-//        测试更新
+//        再次测试更新
         GameJfram gameJfram = new GameJfram();
     }
 }
