@@ -8,10 +8,22 @@ import java.util.Random;
 
 public class GameJfram extends JFrame implements KeyListener {
 
+//    存储图片的数据
     int[][] data = new int[4][4];
+    int[][] winData = {
+            {1,2,3,4},
+            {5,6,7,8},
+            {9,10,11,12},
+            {13,14,15,0}
+    };
 
 //    空白块的位置
     int x = 0, y = 0;
+
+//  当前图片路径
+    String path = "image/animal/animal1/";
+
+//    构造方法
     public GameJfram(){
 //        设置界面宽高以及让界面显示
         initJfram();
@@ -56,11 +68,17 @@ public class GameJfram extends JFrame implements KeyListener {
     private void initImage() {
 //        清空界面
         this.getContentPane().removeAll();
-//        添加图片
 
+        if(isWin()) {
+            JLabel winJlabel = new JLabel(new ImageIcon("image/win.png"));
+            winJlabel.setBounds(203, 283, 197, 73);
+            this.getContentPane().add(winJlabel);
+
+        }
+//        添加图片
         for (int i = 0; i < data.length; i++) {
             for (int i1 = 0; i1 < data[i].length; i1++) {
-                JLabel jLabel = new JLabel(new ImageIcon("image/animal/animal1/" + data[i][i1] + ".jpg"));
+                JLabel jLabel = new JLabel(new ImageIcon(path + data[i][i1] + ".jpg"));
                 jLabel.setBounds(i1*105 + 83,i*105 + 134,105,105);
 //                给图片添加边框
                 jLabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
@@ -131,6 +149,18 @@ public class GameJfram extends JFrame implements KeyListener {
         this.addKeyListener(this);
     }
 
+//    判断是否胜利游戏
+    private boolean isWin(){
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                if(data[i][j] != winData[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -138,14 +168,51 @@ public class GameJfram extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+//        判断游戏是否胜利。如果胜利则不再进行下面的操作
+        if (isWin()) {
+            return;
+        }
 
+        int code = e.getKeyCode();
+//        按下A则删除界面所有图片并添加完整图片
+        if(code == 65){
+            this.getContentPane().removeAll();
+
+            JLabel all = new JLabel(new ImageIcon(path + "all.jpg"));
+            all.setBounds(83, 134, 420, 420);
+            this.getContentPane().add(all);
+
+//            添加背景图
+            ImageIcon bg = new ImageIcon("image/background.png");
+            JLabel background = new JLabel(bg);
+            background.setBounds(40, 40, 508, 560);
+            this.getContentPane().add(background);
+//            刷新界面
+            this.getContentPane().repaint();
+        }
     }
+
+//    作弊直接赢游戏
+    private void win() {
+        for (int i = 0; i < 15; i++) {
+            data[i / 4][i % 4] = i + 1;
+        }
+        data[3][3] = 0;
+        initImage();
+    }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
+//        判断游戏是否胜利。如果胜利则不再进行下面的操作
+        if(isWin()){
+            return;
+        }
+
         int code = e.getKeyCode();
 //        对上下左右判断
 //        左：37  上：38  右：39  下：40
+//        System.out.println(code);
         switch (code) {
             case 37:
 //                System.out.println("左");
@@ -155,6 +222,7 @@ public class GameJfram extends JFrame implements KeyListener {
                 data[x][y] = data[x][y + 1];
                 data[x][y + 1] = 0;
                 y++;
+                initImage();
                 break;
             case 38:
 //                System.out.println("上");
@@ -164,6 +232,7 @@ public class GameJfram extends JFrame implements KeyListener {
                 data[x][y] = data[x + 1][y];
                 data[x + 1][y] = 0;
                 x++;
+                initImage();
                 break;
             case 39:
 //                System.out.println("右");
@@ -173,6 +242,7 @@ public class GameJfram extends JFrame implements KeyListener {
                 data[x][y] = data[x][y - 1];
                 data[x][y - 1] = 0;
                 y--;
+                initImage();
                 break;
             case 40:
 //                System.out.println("下");
@@ -182,8 +252,14 @@ public class GameJfram extends JFrame implements KeyListener {
                 data[x][y] = data[x - 1][y];
                 data[x - 1][y] = 0;
                 x--;
+                initImage();
+                break;
+            case 65:
+                initImage();
+                break;
+            case 87:
+                win();
                 break;
         }
-        initImage();
     }
 }
