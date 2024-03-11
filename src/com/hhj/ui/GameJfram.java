@@ -1,6 +1,7 @@
 package com.hhj.ui;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.util.Random;
 
 public class GameJfram extends JFrame {
@@ -46,10 +47,19 @@ public class GameJfram extends JFrame {
         for (int i = 0; i < data.length; i++) {
             for (int i1 = 0; i1 < data[i].length; i1++) {
                 JLabel jLabel = new JLabel(new ImageIcon("image/animal/animal1/" + data[i][i1] + ".jpg"));
-                jLabel.setBounds(i1*105,i*105,105,105);
+                jLabel.setBounds(i1*105 + 83,i*105 + 134,105,105);
+//                给图片添加边框
+                jLabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
                 this.getContentPane().add(jLabel);
             }
         }
+
+        //        添加背景图
+        ImageIcon bg = new ImageIcon("image/background.png");
+        JLabel background = new JLabel(bg);
+        background.setBounds(40, 40, 508, 560);
+        this.getContentPane().add(background);
+
     }
 
 
@@ -86,7 +96,9 @@ public class GameJfram extends JFrame {
     }
 
     private void initJfram() {
-        this.setSize(630,680);
+
+
+        this.setSize(603,680);
 //        设置标题
         this.setTitle("拼图 v1.0");
 //        设置窗口置顶
