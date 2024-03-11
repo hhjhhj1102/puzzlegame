@@ -4,6 +4,7 @@ import com.hhj.test.RegisterJfram;
 
 public class App {
 //    表示程序的启动入口
+//    author: hhj
     public static void main(String[] args) {
 //        RegisterJfram registerJfram = new RegisterJfram();
 //        LoginJfram logJfram = new LoginJfram();
