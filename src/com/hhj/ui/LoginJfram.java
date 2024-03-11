@@ -2,8 +2,8 @@ package com.hhj.ui;
 
 import javax.swing.*;
 
-public class LogJfram extends JFrame {
-    public LogJfram(){
+public class LoginJfram extends JFrame {
+    public LoginJfram(){
         initJfram();
 
 

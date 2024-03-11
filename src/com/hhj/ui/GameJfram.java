@@ -2,11 +2,16 @@ package com.hhj.ui;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Random;
 
-public class GameJfram extends JFrame {
+public class GameJfram extends JFrame implements KeyListener {
 
     int[][] data = new int[4][4];
+
+//    空白块的位置
+    int x = 0, y = 0;
     public GameJfram(){
 //        设置界面宽高以及让界面显示
         initJfram();
@@ -19,6 +24,7 @@ public class GameJfram extends JFrame {
 
 //        初始化图像
         initImage();
+
 
 //        显示界面
         this.setVisible(true);
@@ -37,6 +43,10 @@ public class GameJfram extends JFrame {
             arr[i] = tmp;
         }
         for (int i = 0; i < 16; i++) {
+            if(arr[i] == 0){
+                x = i / 4;
+                y = i % 4;
+            }
             data[i / 4][i % 4] = arr[i];
         }
     }
@@ -44,6 +54,10 @@ public class GameJfram extends JFrame {
 
     //    初始化图像
     private void initImage() {
+//        清空界面
+        this.getContentPane().removeAll();
+//        添加图片
+
         for (int i = 0; i < data.length; i++) {
             for (int i1 = 0; i1 < data[i].length; i1++) {
                 JLabel jLabel = new JLabel(new ImageIcon("image/animal/animal1/" + data[i][i1] + ".jpg"));
@@ -54,13 +68,14 @@ public class GameJfram extends JFrame {
             }
         }
 
-
         //        添加背景图
         ImageIcon bg = new ImageIcon("image/background.png");
         JLabel background = new JLabel(bg);
         background.setBounds(40, 40, 508, 560);
         this.getContentPane().add(background);
 
+//        刷新界面
+        this.getContentPane().repaint();
     }
 
 
@@ -111,6 +126,64 @@ public class GameJfram extends JFrame {
 
 //        取消默认居中
         this.setLayout(null);
+
+//        给整个界面添加键盘监听事件
+        this.addKeyListener(this);
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+//        对上下左右判断
+//        左：37  上：38  右：39  下：40
+        switch (code) {
+            case 37:
+//                System.out.println("左");
+                if(y == 3){
+                    return;
+                }
+                data[x][y] = data[x][y + 1];
+                data[x][y + 1] = 0;
+                y++;
+                break;
+            case 38:
+//                System.out.println("上");
+                if(x == 3){
+                    return;
+                }
+                data[x][y] = data[x + 1][y];
+                data[x + 1][y] = 0;
+                x++;
+                break;
+            case 39:
+//                System.out.println("右");
+                if(y == 0){
+                    return;
+                }
+                data[x][y] = data[x][y - 1];
+                data[x][y - 1] = 0;
+                y--;
+                break;
+            case 40:
+//                System.out.println("下");
+                if(x == 0){
+                    return;
+                }
+                data[x][y] = data[x - 1][y];
+                data[x - 1][y] = 0;
+                x--;
+                break;
+        }
+        initImage();
+    }
 }
