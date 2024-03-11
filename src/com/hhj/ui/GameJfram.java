@@ -54,6 +54,7 @@ public class GameJfram extends JFrame {
             }
         }
 
+
         //        添加背景图
         ImageIcon bg = new ImageIcon("image/background.png");
         JLabel background = new JLabel(bg);
