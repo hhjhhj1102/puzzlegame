@@ -2,11 +2,13 @@ package com.hhj.ui;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
-public class GameJfram extends JFrame implements KeyListener {
+public class GameJfram extends JFrame implements KeyListener, ActionListener {
 
 //    存储图片的数据
     int[][] data = new int[4][4];
@@ -16,6 +18,16 @@ public class GameJfram extends JFrame implements KeyListener {
             {9,10,11,12},
             {13,14,15,0}
     };
+
+//    创建项目下的条目对象
+    JMenu replaceItem = new JMenu("更换图片");
+    JMenuItem replayItem = new JMenuItem("重新游戏");
+    JMenuItem reLogItem = new JMenuItem("重新登录");
+    JMenuItem closeItem = new JMenuItem("关闭");
+
+    JMenuItem accountItem = new JMenuItem("公众号");
+    JMenuItem animalItem = new JMenuItem("动物");
+    JMenuItem beautyItem = new JMenuItem("美女");
 
 //    空白块的位置
     int x = 0, y = 0;
@@ -105,20 +117,31 @@ public class GameJfram extends JFrame implements KeyListener {
         JMenu functionMenu = new JMenu("功能");
         JMenu aboutMenu = new JMenu("关于我们");
 
-//        创建项目下的条目对象
-        JMenuItem replayItem = new JMenuItem("重新游戏");
-        JMenuItem reLogItem = new JMenuItem("重新登录");
-        JMenuItem closeItem = new JMenuItem("关闭");
-
-        JMenuItem accountItem = new JMenuItem("公众号");
 
 
 //        将每个选项下面的条目加到对应选项
+        functionMenu.add(replaceItem);
         functionMenu.add(replayItem);
         functionMenu.add(reLogItem);
         functionMenu.add(closeItem);
 
         aboutMenu.add(accountItem);
+
+//        更换图片
+        replaceItem.add(animalItem);
+        replaceItem.add(beautyItem);
+
+
+//        给条目绑定事件
+        replayItem.addActionListener(this);
+        reLogItem.addActionListener(this);
+        closeItem.addActionListener(this);
+        accountItem.addActionListener(this);
+//        replaceItem.addActionListener(this);
+
+        animalItem.addActionListener(this);
+        beautyItem.addActionListener(this);
+
 
 //        将选项添加到菜刀中
         jMenuBar.add(functionMenu);
@@ -260,6 +283,38 @@ public class GameJfram extends JFrame implements KeyListener {
             case 87:
                 win();
                 break;
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == replayItem) {
+            System.out.println("重新游戏");
+            initData();
+            initImage();
+        }
+        else if (source == reLogItem) {
+            System.out.println("重新登录");
+        }
+        else if (source == closeItem) {
+            System.out.println("关闭");
+            System.exit(0);
+        }
+        else if (source == accountItem) {
+            System.out.println("公众号");
+        }
+        else if (source == animalItem) {
+            System.out.println("更换图片");
+            path = "image/animal/animal" + (new Random().nextInt(8) + 1) + "/";
+            initData();
+            initImage();
+        }
+        else if (source == beautyItem) {
+            System.out.println("更换图片");
+            path = "image/girl/girl" + (new Random().nextInt(13) + 1) + "/";
+            initData();
+            initImage();
         }
     }
 }
