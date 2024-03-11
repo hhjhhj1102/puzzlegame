@@ -1,4 +1,4 @@
-package com.study.ui;
+package com.hhj.ui;
 
 import javax.swing.*;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package com.study.ui.Test;
+package com.hhj.test;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

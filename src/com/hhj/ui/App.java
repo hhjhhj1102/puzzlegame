@@ -1,4 +1,4 @@
-package com.study.ui;
+package com.hhj.ui;
 
 public class App {
 //    表示程序的启动入口

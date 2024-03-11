@@ -1,4 +1,4 @@
-package com.study.ui.Test;
+package com.hhj.test;
 
 public class Test {
     public static void main(String[] args) {
